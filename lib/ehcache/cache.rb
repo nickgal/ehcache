@@ -33,9 +33,14 @@ class Java::NetSfEhcache::Cache
     if args.size == 1 && args.first.kind_of?(Ehcache::Element)
       element = args.first
     elsif args.size == 2
-      if marshal?
-        value = Java::NetSfEhcache::MarshaledRubyObject.new(Marshal.dump(args[1]).to_java_bytes)
-      end
+
+      # if marshal?
+      #   value = Java::NetSfEhcache::MarshaledRubyObject.new(Marshal.dump(args[1]).to_java_bytes)
+      # end
+
+      # Store the raw bytes instead of a class
+      value = Marshal.dump(args[1]).to_java_bytes
+
       element = Ehcache::Element.create(args[0], value, options)
     else
       raise ArgumentError, "Must be Element object or key and value arguments"

@@ -17,7 +17,7 @@ class Java::NetSfEhcache::Element
     if val.kind_of?(Java::NetSfEhcache::MarshaledRubyObject)
       Marshal.load(String.from_java_bytes(val.bytes))
     else
-      val
+      Marshal.load(String.from_java_bytes(val))
     end
   end
 
@@ -26,7 +26,7 @@ class Java::NetSfEhcache::Element
 
   alias tti= setTimeToIdle
   alias ttl= setTimeToLive
-  
+
   alias expires_in getTimeToLive
   def expires_in=(seconds)
     setTimeToLive(seconds.to_i)
